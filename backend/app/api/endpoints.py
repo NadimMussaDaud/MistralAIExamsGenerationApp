@@ -1,14 +1,16 @@
 
 from fastapi import APIRouter, UploadFile, File, Form
 from fastapi.responses import JSONResponse
-from mistralai.client import MistralClient
+from mistralai import Mistral
 import os
 
 router = APIRouter()
 
 # Configure sua chave de API da Mistral
+
+
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "SUA_CHAVE_AQUI")
-client = MistralClient(api_key=MISTRAL_API_KEY)
+client = Mistral(api_key=MISTRAL_API_KEY)
 
 @router.post("/generate-questions")
 async def generate_questions(

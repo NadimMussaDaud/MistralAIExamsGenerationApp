@@ -1,11 +1,13 @@
 import reflex as rx
 import pdfplumber
+import httpx
 import os
 from typing import TypedDict
 import mistralai
 import logging
 
-mistralai.api_key = os.getenv("MISTRALAI_API_KEY")
+client = mistralai.Mistral(api_key=os.getenv("MISTRALAI_API_KEY"))
+
 
 
 class ChatMessage(TypedDict):
@@ -36,7 +38,7 @@ class State(rx.State):
         try:
             file = files[0]
             # Envia o arquivo para o backend
-            import httpx
+            
             form = httpx.MultipartWriter()
             part = form.add_part(await file.read(), filename=file.name, content_type=file.content_type)
             async with httpx.AsyncClient() as client:
