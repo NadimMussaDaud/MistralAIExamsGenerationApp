@@ -27,6 +27,10 @@ flowchart TD
  
     E3 --> G[PDF Test Generation]
     G --> H[Output for User]
+
+    %% Notes for features that don't exist yet
+    C -.-> Note1((Web Scraper does not exist yet.<br>Planned as a future improvement.))
+    G -.-> Note2((PDF Generation does not exist yet.<br>Planned as a future improvement.))
 ```
 
 ## Docker Build & Run Instructions
@@ -62,5 +66,3 @@ flowchart TD
 - Web Scrapper increasing relevant information
 - PDF Export
 
-
-```
