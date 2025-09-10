@@ -19,7 +19,11 @@ def message_bubble(message: dict, index: int) -> rx.Component:
                     rx.cond(is_user, "You", "Assistant"),
                     class_name="font-semibold text-sm",
                 ),
-                rx.el.p(message["content"], class_name="text-sm font-medium"),
+                rx.cond(
+                    is_user,
+                    rx.el.p(message["content"], class_name="text-sm font-medium"),
+                    rx.markdown(message["content"], class_name="text-sm font-medium"),
+                ),
                 class_name="flex flex-col gap-1",
             ),
             class_name="flex items-start gap-3",
@@ -89,16 +93,10 @@ def chat_input() -> rx.Component:
                         height=20,
                     ),
                     type_="submit",
-                    class_name=rx.cond(
-                        State.processing
-                        | (State.current_question.strip() == "")
-                        | State.is_uploading,
-                        "p-2 rounded-lg bg-gray-100 cursor-not-allowed",
-                        "p-2 rounded-lg bg-gray-900 hover:bg-gray-700",
-                    ),
-                    disabled=State.processing
-                    | (State.current_question.strip() == "")
-                    | State.is_uploading,
+                    class_name="p-2 rounded-lg bg-gray-900 hover:bg-gray-700",
+                    #disabled=State.processing
+                    #| (State.current_question.strip() == "")
+                    #| State.is_uploading,
                 ),
                 class_name="flex items-center gap-3 w-full",
             ),

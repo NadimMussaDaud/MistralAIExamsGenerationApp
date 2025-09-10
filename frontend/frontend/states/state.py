@@ -1,14 +1,17 @@
 import reflex as rx
 import pdfplumber
-import httpx
 import os
 from typing import TypedDict
 import mistralai
 import logging
+from dotenv import load_dotenv
+load_dotenv()
 
-client = mistralai.Mistral(api_key=os.getenv("MISTRALAI_API_KEY"))
+client = mistralai.Mistral(api_key=os.getenv("MISTRAL_API_KEY"))
+model = "mistral-large-latest"
 
-
+UPLOAD_DIR = "uploaded_files"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 class ChatMessage(TypedDict):
     role: str
@@ -36,27 +39,28 @@ class State(rx.State):
         yield
         try:
             file = files[0]
-            # Envia o arquivo para o backend
             
-            form = httpx.MultipartWriter()
-            part = form.add_part(await file.read(), filename=file.name, content_type=file.content_type)
-            async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    "http://localhost:8000/upload-documents",
-                    content=form,
-                    headers={"Content-Type": form.content_type}
-                )
-            if response.status_code == 200:
-                self.uploaded_pdf = file.name
-                self.chat_history.append(
-                    {
-                        "role": "assistant",
-                        "content": f"Successfully uploaded {self.uploaded_pdf}. What would you like to know about it?",
-                    }
-                )
-                yield rx.toast.success(f"Uploaded {file.name}")
-            else:
-                yield rx.toast.error("Upload failed. Please try again.")
+            file_path = os.path.join(UPLOAD_DIR, file.name)
+            # Save the uploaded file to disk
+            with open(file_path, "wb") as f:
+                f.write(await file.read())
+            self.uploaded_pdf = file.name
+
+            # Optionally, extract text from PDF for later use
+            try:
+                with pdfplumber.open(file_path) as pdf:
+                    self.pdf_text = "\n".join(page.extract_text() or "" for page in pdf.pages)
+            except Exception as e:
+                logging.warning(f"Could not extract text from PDF: {e}")
+                self.pdf_text = ""
+
+            self.chat_history.append(
+                {
+                    "role": "assistant",
+                    "content": f"Successfully uploaded {self.uploaded_pdf}. What would you like to know about it?",
+                }
+            )
+            yield rx.toast.success(f"Uploaded {file.name}")
         except Exception as e:
             logging.exception(f"Upload failed: {e}")
             yield rx.toast.error("Upload failed. Please try again.")
@@ -73,12 +77,12 @@ class State(rx.State):
             if not self.pdf_text:
                 response_content = "Please upload a PDF first."
             else:
-                completion = await mistralai.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                completion = await client.chat.complete_async(
+                    model=model,
                     messages=[
                         {
                             "role": "system",
-                            "content": f"You are a helpful assistant. Use the following PDF content to answer the user's question. Content: {self.pdf_text}",
+                            "content": f"You are a helpful assistant. Use the following PDF content to answer the user's question and only use the pdf for it and If asked about anything outside dont answer with anything outside the PDF's scope. Content: {self.pdf_text}",
                         },
                         {"role": "user", "content": self.chat_history[-1]["content"]},
                     ],
