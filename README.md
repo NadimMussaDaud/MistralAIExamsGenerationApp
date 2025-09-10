@@ -20,12 +20,11 @@ flowchart TD
     C[Public Question Bank Web Scraper] --> D[Storage & Processing Layer]
     B --> D
 
-    D --> E1[Retrieve Similar Questions]
     D --> E2[Mistral AI<br>Generate New Questions]
     E1 --> E3[Format to Markdown]
-    E2 --> E3
 
-    E3 --> F[LaTeX Templating Engine]
+    E2 --> E3
+ 
     F --> G[PDF Test Generation]
     G --> H[Output for User]
 ```
