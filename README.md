@@ -60,7 +60,8 @@ flowchart TD
  - Reflex (Frontend Framework) + FastAPI (backend)
 
 ## Improvements:
-- 
+- Web Scrapper increasing relevant information
+- PDF Export
 
 
 ```
