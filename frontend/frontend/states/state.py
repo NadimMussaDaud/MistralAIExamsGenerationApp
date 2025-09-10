@@ -28,7 +28,6 @@ class State(rx.State):
     uploaded_pdf: str = ""
     pdf_text: str = ""
 
-    @rx.event
     async def handle_upload(self, files: list[rx.UploadFile]):
         if not files:
             yield rx.toast.warning("No file selected. Please choose a PDF to upload.")
