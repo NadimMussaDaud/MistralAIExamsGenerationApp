@@ -1,4 +1,9 @@
 
 reflex==0.8.9
 mistralai
+python-dotenv
 pdfplumber
+fastapi
+pymupdf
+weasyprint
+markdown2
