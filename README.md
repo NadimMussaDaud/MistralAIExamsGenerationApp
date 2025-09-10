@@ -20,11 +20,6 @@ flowchart TD
     C[Public Question Bank Web Scraper] --> D[Storage & Processing Layer]
     B --> D
 
-    subgraph D [Storage & Processing Layer]
-        D1[Vector Database<br>ChromaDB/FAISS]
-        D2[Processed Questions<br>PostgreSQL]
-    end
-
     D1 --> E[Retrieval & Synthesis]
     D2 --> E
 
