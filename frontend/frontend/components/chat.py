@@ -106,3 +106,18 @@ def chat_input() -> rx.Component:
         ),
         class_name="p-6 flex items-center bg-white border-t border-gray-200",
     )
+
+
+def chat_topbar() -> rx.Component:
+    return rx.el.div(
+        rx.el.button(
+            rx.icon("file-text", class_name="mr-2", width=18, height=18),
+            "Generate Exam",
+            type_="button",
+            class_name="p-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 flex items-center",
+            on_click=State.generate_exam,
+            disabled=State.processing | State.is_uploading,
+        ),
+        class_name="flex justify-end items-center p-4 border-b border-gray-200 bg-white",
+    )
+
