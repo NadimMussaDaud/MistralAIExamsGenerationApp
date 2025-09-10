@@ -4,3 +4,5 @@ mistralai
 python-dotenv
 fastapi
 pymupdf
+weasyprint
+markdown2

@@ -3,6 +3,8 @@ from frontend.components.chat import chat_area, chat_input
 from frontend.components.navbar import navbar
 from frontend.api import api
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from frontend.states.state import State
 
 
 def index() -> rx.Component:
@@ -15,6 +17,8 @@ def index() -> rx.Component:
         ),
         class_name="font-['Inter'] bg-[#F7F7F8]",
     )
+
+
 origins = [
     "https://supreme-disco-qgw5r6jj646hxwgp-3000.app.github.dev",  # Your frontend
     "https://supreme-disco-qgw5r6jj646hxwgp-8006.app.github.dev",  # Your backend
@@ -38,6 +42,7 @@ def add_cors_middleware(app: rx.App):
         allow_headers=["*"],
     )
     return app
+
 
 app = rx.App(
     api_transformer=[api, add_cors_middleware],

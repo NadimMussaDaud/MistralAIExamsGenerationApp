@@ -1,10 +1,11 @@
 from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 import os
 import pymupdf as fitz
 from mistralai import Mistral
 import asyncio
 import logging
+import reflex as rx
 from frontend.states.state import ChatMessage
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,8 +30,6 @@ if not mistral_api_key:
     mistral_client = None
 else:
     mistral_client = Mistral(api_key=mistral_api_key)
-
-
 
 async def exam_generator(pdf_texts: list[str]):
     """Generator function to stream the exam from MistralAI."""
