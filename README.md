@@ -20,16 +20,12 @@ flowchart TD
     C[Public Question Bank Web Scraper] --> D[Storage & Processing Layer]
     B --> D
 
-    D1 --> E[Retrieval & Synthesis]
-    D2 --> E
+    D --> E1[Retrieve Similar Questions]
+    D --> E2[Mistral AI<br>Generate New Questions]
+    E1 --> E3[Format to Markdown]
+    E2 --> E3
 
-    subgraph E [Retrieval & Synthesis]
-        E1[Retrieve Similar Questions]
-        E2[Mistral AI<br>Generate New Questions]
-        E3[Format to Markdown]
-    end
-
-    E3 --> F{LaTeX Templating Engine}
+    E3 --> F[LaTeX Templating Engine]
     F --> G[PDF Test Generation]
     G --> H[Output for User]
 ```
@@ -66,3 +62,5 @@ flowchart TD
 ## Improvements:
 - 
 
+
+```
