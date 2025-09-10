@@ -1,6 +1,15 @@
 # MistralAIExamsGenerationApp
 Instead of creating questions by yourself for an Exam let the App do this for you!
 
+To Use the App go to the frontend link down the page after running docker. 
+
+You can chat with the Bot on your Documents(Slides and Exams) and also generate how many new Exams you want so you can study better!
+
+## Features:
+ - File uplaoding
+ - Document AI Chat
+ - Exame Generation
+ - Slides/Notes + Exams separation for better perfomance and accuracy
 
 
 ## App workflow
@@ -55,3 +64,10 @@ flowchart TD
    - The Dockerfile copies this `.env` file into the container.
 
 ---
+
+## Stack:
+ - Reflex (Frontend Framework) + FastAPI (backend)
+
+## Improvements:
+- 
+
