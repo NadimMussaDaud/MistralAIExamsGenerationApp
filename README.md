@@ -16,7 +16,7 @@ You can chat with the Bot on your Documents(Slides and Exams) and also generate 
 
 ```mermaid
 flowchart TD
-    A[User Uploads Past Tests PDFs] --> B[Text Extraction & Chunking]
+    A[User Uploads Past Tests/Notes PDFs] --> B[Text Extraction & Separation]
     C[Public Question Bank Web Scraper] --> D[Storage & Processing Layer]
     B --> D
 
@@ -31,7 +31,7 @@ flowchart TD
     subgraph E [Retrieval & Synthesis]
         E1[Retrieve Similar Questions]
         E2[Mistral AI<br>Generate New Questions]
-        E3[Format to JSON]
+        E3[Format to Markdown]
     end
 
     E3 --> F{LaTeX Templating Engine}
