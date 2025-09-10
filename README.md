@@ -21,11 +21,11 @@ flowchart TD
     B --> D
 
     D --> E2[Mistral AI<br>Generate New Questions]
-    E1 --> E3[Format to Markdown]
+    E3[Format to Markdown]
 
     E2 --> E3
  
-    F --> G[PDF Test Generation]
+    E3 --> G[PDF Test Generation]
     G --> H[Output for User]
 ```
 
